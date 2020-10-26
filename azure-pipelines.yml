@@ -1,0 +1,27 @@
+trigger:
+- '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  phpVersion: 7.2
+
+stages:
+- stage: static_analisys
+  jobs:
+    - job: 
+      steps:
+        - task: SonarCloudPrepare@1
+          inputs:
+            SonarCloud: 'sonacloud'
+            organization: 'salomerosa'
+            scannerMode: 'CLI'
+            configMode: 'manual'
+            cliProjectKey: 'pruebareto'
+            cliProjectName: 'pruebareto'
+            cliSources: '.'
+        - task: SonarCloudAnalyze@1
+        - task: SonarCloudPublish@1
+          inputs:
+            pollingTimeoutSec: '300'
